@@ -2,11 +2,18 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
+# Install system dependencies including libgomp1 for LightGBM
 RUN apt-get update && apt-get install -y \
     wget \
     gnupg \
     unzip \
     curl \
+    libgomp1 \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Chrome using new method (no apt-key)
@@ -23,11 +30,18 @@ RUN wget -q https://storage.googleapis.com/chrome-for-testing-public/133.0.6943.
     && chmod +x /usr/local/bin/chromedriver \
     && rm -rf chromedriver-linux64*
 
+# Set matplotlib cache directory to writable location
+ENV MPLCONFIGDIR=/tmp/matplotlib
+
+# Copy requirements and install Python packages
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy application code
 COPY . .
 
+# Expose the port
 EXPOSE 10000
 
+# Run the application
 CMD ["python", "main.py"]
