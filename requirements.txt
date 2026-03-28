@@ -1,0 +1,15 @@
+selenium
+flask
+tensorflow
+scikit-learn
+numpy
+pandas
+xgboost
+lightgbm
+catboost
+joblib
+optuna
+matplotlib
+seaborn
+plotly
+scipy
