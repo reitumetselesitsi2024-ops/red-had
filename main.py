@@ -1417,12 +1417,15 @@ def run_ultimate_ai():
         print("✓ Pattern detection (colors, gaps, pairs, positions)")
         print("=" * 80)
 
-        # Setup Chrome
+        # Setup Chrome with unique user data directory to avoid session conflicts
+        import os
         options = Options()
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
         options.add_argument('--window-size=1920,1080')
+        # CRITICAL FIX: Use unique user data directory to avoid session conflicts
+        options.add_argument(f'--user-data-dir=/tmp/chrome-{os.getpid()}')
 
         driver = webdriver.Chrome(options=options)
         print("✅ Chrome ready")
